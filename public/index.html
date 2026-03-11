@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoastCV — AI Resume Roaster 🔥</title>
+<meta name="description" content="Get your resume brutally roasted by AI. Find out exactly why you're not getting callbacks — free, instant, ruthlessly honest.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire: #FF4500;
+    --ember: #FF8C00;
+    --ash: #1a1a1a;
+    --smoke: #2d2d2d;
+    --paper: #f5f0e8;
+    --char: #3d3d3d;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ash);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    bottom: -50px;
+    left: 0; right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255,69,0,0.15) 0%, transparent 70%);
+    pointer-events: none;
+    animation: breathe 3s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.6; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--fire);
+  }
+
+  .nav-badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 32px 60px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ember);
+    background: rgba(255,140,0,0.1);
+    border: 1px solid rgba(255,140,0,0.2);
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 .fire-word {
+    color: var(--fire);
+    display: inline-block;
+    animation: flicker 2s ease-in-out infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% { text-shadow: 0 0 40px rgba(255,69,0,0.5); }
+    50% { text-shadow: 0 0 80px rgba(255,69,0,0.9), 0 0 120px rgba(255,140,0,0.4); }
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    max-width: 480px;
+    margin: 24px auto 0;
+    line-height: 1.6;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 48px 0;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--fire);
+    letter-spacing: 1px;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  .upload-section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .upload-zone {
+    border: 2px dashed rgba(255,69,0,0.35);
+    border-radius: 16px;
+    padding: 52px 32px;
+    text-align: center;
+    background: rgba(255,69,0,0.04);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--fire);
+    background: rgba(255,69,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .upload-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .upload-sub { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+
+  #fileInput { display: none; }
+
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0;
+    color: rgba(255,255,255,0.2);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 160px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  textarea:focus { border-color: rgba(255,69,0,0.5); }
+  textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+  .roast-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--fire);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .roast-btn:hover {
+    background: #ff5722;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255,69,0,0.4);
+  }
+
+  .roast-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .sample-link {
+    font-size: 0.8rem;
+    color: rgba(255,69,0,0.7);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    display: block;
+    margin-top: 10px;
+    transition: color 0.2s;
+  }
+  .sample-link:hover { color: var(--fire); }
+
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 48px;
+  }
+  .loading.active { display: block; }
+
+  .flame-loader {
+    font-size: 3rem;
+    animation: burn 0.5s ease-in-out infinite alternate;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  @keyframes burn {
+    from { transform: scale(1) rotate(-3deg); }
+    to { transform: scale(1.15) rotate(3deg); }
+  }
+
+  .loading-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  /* ERROR */
+  .error-box {
+    display: none;
+    background: rgba(255,69,0,0.1);
+    border: 1px solid rgba(255,69,0,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    color: #ff8c69;
+    font-size: 0.88rem;
+    margin-top: 16px;
+    text-align: center;
+  }
+  .error-box.active { display: block; }
+
+  .result-section {
+    display: none;
+    max-width: 680px;
+    margin: 0 auto 80px;
+    padding: 0 32px;
+  }
+  .result-section.active { display: block; }
+
+  .score-card {
+    background: var(--smoke);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .score-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--fire), var(--ember));
+  }
+
+  .score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .score-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 6px;
+  }
+
+  .score-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+
+  .score-verdict {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid;
+  }
+
+  .score-bars { display: flex; flex-direction: column; gap: 14px; }
+
+  .bar-row { display: flex; align-items: center; gap: 14px; }
+
+  .bar-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    width: 120px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--fire), var(--ember));
+    width: 0%;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bar-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    width: 32px;
+    text-align: right;
+  }
+
+  .roast-card {
+    background: var(--smoke);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+
+  .roast-card-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ember);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .roast-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.85);
+    white-space: pre-wrap;
+  }
+
+  .share-row { display: flex; gap: 12px; margin-top: 24px; }
+
+  .share-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .share-tw { background: #1DA1F2; color: white; }
+  .share-li { background: #0A66C2; color: white; }
+  .share-copy { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.12); }
+  .share-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  .upsell {
+    background: linear-gradient(135deg, rgba(255,69,0,0.12), rgba(255,140,0,0.06));
+    border: 1px solid rgba(255,69,0,0.25);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .upsell-text h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .upsell-text p { font-size: 0.83rem; color: rgba(255,255,255,0.45); }
+
+  .upsell-btn {
+    padding: 14px 28px;
+    background: white;
+    color: var(--ash);
+    border: none;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .upsell-btn:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+
+  .reset-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.4);
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: rgba(255,255,255,0.3); color: white; }
+
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🔥 RoastCV</div>
+  <div class="nav-badge">AI-Powered Brutality</div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">🔥 Free Resume Roast</div>
+  <h1>YOUR RESUME<br>IS <span class="fire-word">COOKED</span></h1>
+  <p class="subtitle">We'll tell you exactly why you're not getting callbacks — brutally, honestly, and in under 30 seconds.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">47,291</div>
+      <div class="stat-label">Resumes Roasted</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Avg Rating</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">Always</div>
+    </div>
+  </div>
+</section>
+
+<div class="upload-section" id="inputSection">
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <span class="upload-icon">📄</span>
+    <div class="upload-title">Drop Your Resume Here</div>
+    <div class="upload-sub">PDF, DOCX, or TXT — we'll torch it either way</div>
+    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt">
+  </div>
+
+  <div class="or-divider">or paste it</div>
+
+  <textarea id="resumeText" placeholder="Paste your resume text here..."></textarea>
+  <span class="sample-link" onclick="loadSample()">Load a sample resume to try it out →</span>
+
+  <button class="roast-btn" onclick="roastResume()" id="roastBtn">🔥 ROAST MY RESUME</button>
+  <div class="error-box" id="errorBox"></div>
+</div>
+
+<div class="loading" id="loading">
+  <span class="flame-loader">🔥</span>
+  <div class="loading-text" id="loadingText">Heating up the roaster...</div>
+</div>
+
+<div class="result-section" id="resultSection">
+  <div class="score-card">
+    <div class="score-header">
+      <div>
+        <div class="score-label">Hirability Score</div>
+        <div class="score-num" id="scoreNum" style="color: var(--fire)">—</div>
+      </div>
+      <div class="score-verdict" id="scoreVerdict"></div>
+    </div>
+    <div class="score-bars" id="scoreBars"></div>
+  </div>
+
+  <div class="roast-card">
+    <div class="roast-card-title">🎤 The Roast</div>
+    <div class="roast-text" id="roastOutput"></div>
+  </div>
+
+  <div class="roast-card">
+    <div class="roast-card-title">✅ How to Fix It</div>
+    <div class="roast-text" id="fixOutput"></div>
+  </div>
+
+  <div class="share-row">
+    <button class="share-btn share-tw" onclick="shareTwitter()">Share on X</button>
+    <button class="share-btn share-li" onclick="shareLinkedIn()">Share on LinkedIn</button>
+    <button class="share-btn share-copy" onclick="copyRoast()">Copy Roast</button>
+  </div>
+
+  <div class="upsell">
+    <div class="upsell-text">
+      <h3>Fix Your Resume — $9</h3>
+      <p>Get a professionally rewritten version that actually gets callbacks</p>
+    </div>
+    <button class="upsell-btn">GET FIXED →</button>
+  </div>
+
+  <button class="reset-btn" onclick="resetApp()">← Roast another resume</button>
+</div>
+
+<footer>
+  RoastCV — Brutally honest. Completely free.<br>
+  Not responsible for existential crises.
+</footer>
+
+<script>
+const sampleResume = `John Smith | john.smith@gmail.com | LinkedIn: linkedin.com/in/jsmith
+
+OBJECTIVE
+Hardworking and motivated team player seeking a challenging opportunity to leverage my skills and grow professionally in a dynamic environment.
+
+EXPERIENCE
+Software Engineer — TechCorp Inc. (Jan 2022 – Present)
+• Worked on various web projects using different technologies
+• Participated in team meetings and stand-ups
+• Collaborated with cross-functional teams
+• Helped fix bugs and improve performance
+
+Junior Developer — StartupXYZ (2020 – 2021)
+• Assisted senior developers with tasks
+• Learned new technologies as needed
+
+EDUCATION
+B.S. Computer Science — State University, 2020
+
+SKILLS
+Microsoft Office, Teamwork, Communication, Java, Python, HTML, CSS, Problem-solving, Fast learner
+
+REFERENCES
+Available upon request`;
+
+function loadSample() {
+  document.getElementById('resumeText').value = sampleResume;
+}
+
+// Drag & drop
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) { const r = new FileReader(); r.onload = e => { document.getElementById('resumeText').value = e.target.result; }; r.readAsText(file); }
+});
+
+document.getElementById('fileInput').addEventListener('change', e => {
+  if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => { document.getElementById('resumeText').value = ev.target.result; }; r.readAsText(e.target.files[0]); }
+});
+
+const loadingMessages = [
+  "Heating up the roaster...",
+  "Reading your resume with judgment...",
+  "Counting the buzzwords...",
+  "Cringing at your objective statement...",
+  "Preparing the burns...",
+  "Almost done torching it..."
+];
+
+async function roastResume() {
+  const resumeText = document.getElementById('resumeText').value.trim();
+  const errorBox = document.getElementById('errorBox');
+  errorBox.classList.remove('active');
+
+  if (resumeText.length < 50) {
+    errorBox.textContent = 'Paste your resume first — we need something to roast!';
+    errorBox.classList.add('active');
+    return;
+  }
+
+  document.getElementById('inputSection').style.display = 'none';
+  document.getElementById('loading').classList.add('active');
+
+  let msgIdx = 0;
+  const msgInterval = setInterval(() => {
+    document.getElementById('loadingText').textContent = loadingMessages[Math.min(msgIdx++, loadingMessages.length - 1)];
+  }, 1800);
+
+  try {
+    // ✅ Calls YOUR backend — API key never exposed to browser
+    const response = await fetch('/api/roast', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resumeText })
+    });
+
+    clearInterval(msgInterval);
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || 'Something went wrong');
+    }
+
+    const result = await response.json();
+    displayResult(result);
+
+  } catch (err) {
+    clearInterval(msgInterval);
+    document.getElementById('loading').classList.remove('active');
+    document.getElementById('inputSection').style.display = 'block';
+    errorBox.textContent = '⚠️ ' + (err.message || 'Failed to roast. Try again.');
+    errorBox.classList.add('active');
+  }
+}
+
+function displayResult(result) {
+  document.getElementById('loading').classList.remove('active');
+  document.getElementById('resultSection').classList.add('active');
+
+  const scoreEl = document.getElementById('scoreNum');
+  scoreEl.style.color = result.verdict_color || 'var(--fire)';
+  let current = 0;
+  const counter = setInterval(() => {
+    current = Math.min(current + 2, result.score);
+    scoreEl.textContent = current + '/100';
+    if (current >= result.score) clearInterval(counter);
+  }, 20);
+
+  const verdict = document.getElementById('scoreVerdict');
+  verdict.textContent = result.verdict;
+  verdict.style.color = result.verdict_color || 'var(--fire)';
+  verdict.style.borderColor = result.verdict_color || 'var(--fire)';
+
+  const barsEl = document.getElementById('scoreBars');
+  barsEl.innerHTML = '';
+  result.categories.forEach(cat => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-label">${cat.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%" data-target="${cat.score}"></div></div>
+      <div class="bar-val">${cat.score}</div>`;
+    barsEl.appendChild(row);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(bar => { bar.style.width = bar.dataset.target + '%'; });
+  }, 200);
+
+  document.getElementById('roastOutput').textContent = result.roast;
+  document.getElementById('fixOutput').textContent = result.fixes;
+  window.currentRoast = result;
+}
+
+function shareTwitter() {
+  const score = window.currentRoast?.score || '??';
+  const verdict = window.currentRoast?.verdict || '';
+  const text = `Just got my resume roasted and scored ${score}/100 — verdict: "${verdict}" 💀🔥 Get yours roasted free at RoastCV`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function shareLinkedIn() {
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url=https://roastcv.com', '_blank');
+}
+
+function copyRoast() {
+  const roast = document.getElementById('roastOutput').textContent;
+  navigator.clipboard.writeText(roast).then(() => {
+    const btn = document.querySelector('.share-copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Roast', 2000);
+  });
+}
+
+function resetApp() {
+  document.getElementById('resultSection').classList.remove('active');
+  document.getElementById('inputSection').style.display = 'block';
+  document.getElementById('resumeText').value = '';
+  document.getElementById('fileInput').value = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
